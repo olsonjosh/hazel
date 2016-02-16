@@ -10,22 +10,22 @@ SET D=%~dp0
 :: Otherwise they get moved into a directory called "Folders"
 FOR /D %%I IN (%D%*) DO (
 
-	IF NOT "%%~NI"=="Adobe" 		(
-	IF NOT "%%~NI"=="Archives" 		(
+	IF NOT "%%~NI"=="Adobe" 	(
+	IF NOT "%%~NI"=="Archives" 	(
 	IF NOT "%%~NI"=="Databases" 	(
 	IF NOT "%%~NI"=="Documents" 	(
-	IF NOT "%%~NI"=="Drawings" 		(
-	IF NOT "%%~NI"=="Excel" 		(
-	IF NOT "%%~NI"=="Folders"		(
-	IF NOT "%%~NI"=="Images" 		(
-	IF NOT "%%~NI"=="Other"			(
+	IF NOT "%%~NI"=="Drawings" 	(
+	IF NOT "%%~NI"=="Excel" 	(
+	IF NOT "%%~NI"=="Folders"	(
+	IF NOT "%%~NI"=="Images" 	(
+	IF NOT "%%~NI"=="Other"		(
 	IF NOT "%%~NI"=="PowerPoint" 	(
-	IF NOT "%%~NI"=="Scripts" 		(
-	IF NOT "%%~NI"=="Software" 		(	
+	IF NOT "%%~NI"=="Scripts" 	(
+	IF NOT "%%~NI"=="Software" 	(	
 
-	IF NOT EXIST 	"%D%Folders" 		( MKDIR "%D%Folders" 			) ELSE ( 
-	IF EXIST 		"%D%Folders\%%~NI" 	( CALL:RENAMEFOLDER "%%I" 0 	) ELSE ( 
-	MOVE 			"%%~I" "%D%Folders\%%~NI" )))))))))))))))
+	IF NOT EXIST 	"%D%Folders" 		( MKDIR "%D%Folders" 		) ELSE ( 
+	IF EXIST 	"%D%Folders\%%~NI" 	( CALL:RENAMEFOLDER "%%I" 0 	) ELSE ( 
+	MOVE 		"%%~I" "%D%Folders\%%~NI" )))))))))))))))
 
 :: Files that match the "IF /I" statement are moved to their respective folders
 :: Links and Partial files are deleted
@@ -76,8 +76,8 @@ FOR %%I IN (%D%*) DO (
 		IF /I "%%~XI"==".exe"		( CALL:MOVEFILE "%%I" "Software"	) ELSE (
 		IF /I "%%~XI"==".msi"		( CALL:MOVEFILE "%%I" "Software"	) ELSE (
 
-		IF /I "%%~XI"==".lnk"		( DEL "%%I"							) ELSE (
-		IF /I "%%~XI"==".partial"	( DEL "%%I"							) ELSE (
+		IF /I "%%~XI"==".lnk"		( DEL "%%I"				) ELSE (
+		IF /I "%%~XI"==".partial"	( DEL "%%I"				) ELSE (
 
 		CALL:MOVEFILE "%%I" "Other" ))))))))))))))))))))))))))))))))))))
 
@@ -86,20 +86,20 @@ GOTO:EOF
 :: When a folder gets moved, this renames the folder when it already exists in the destination
 :RENAMEFOLDER
 SET /A copies=1+%2
-IF EXIST 		"%D%Folders\%~N1 (!copies!)" 		( CALL:RENAMEFOLDER "%~1" !copies! 			) ELSE ( 
-MOVE 			"%~1" "%D%Folders\%~N1 (!copies!)" 	)
+IF EXIST 	"%D%Folders\%~N1 (!copies!)" 		( CALL:RENAMEFOLDER "%~1" !copies! 		) ELSE ( 
+MOVE 		"%~1" "%D%Folders\%~N1 (!copies!)" 	)
 GOTO:EOF
 
 :: This function creates the destination folder if needed and attempts to move the file
 :MOVEFILE
-IF NOT EXIST 	"%D%\%~2" 							( MKDIR 			"%D%\%~2" 				) ELSE ( 
-IF EXIST 		"%D%\%~2\%~NX1" 					( CALL:RENAMEFILE 	"%~1" "%~2" 0 			) ELSE ( 
-MOVE 			"%~1" "%D%\%~2\%~NX1" 				))
+IF NOT EXIST 	"%D%\%~2" 				( MKDIR 		"%D%\%~2" 		) ELSE ( 
+IF EXIST 	"%D%\%~2\%~NX1" 			( CALL:RENAMEFILE 	"%~1" "%~2" 0 		) ELSE ( 
+MOVE 		"%~1" "%D%\%~2\%~NX1" 			))
 GOTO:EOF
 
 :: If the file already exists in the destination, this renames the file
 :RENAMEFILE
 SET /A copies=1+%3
-IF EXIST 		"%D%\%~2\%~N1 (!copies!)%~X1" 		( CALL:RENAMEFILE 	"%~1" "%~2" !copies!	) ELSE ( 
-MOVE 			"%~1" "%D%\%~2\%~N1 (!copies!)" 	)
+IF EXIST 	"%D%\%~2\%~N1 (!copies!)%~X1" 		( CALL:RENAMEFILE 	"%~1" "%~2" !copies!	) ELSE ( 
+MOVE 		"%~1" "%D%\%~2\%~N1 (!copies!)" 	)
 GOTO:EOF
