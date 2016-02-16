@@ -23,9 +23,9 @@ FOR /D %%I IN (%D%*) DO (
 	IF NOT "%%~NI"=="Scripts" 	(
 	IF NOT "%%~NI"=="Software" 	(	
 
-	IF NOT EXIST 	"%D%Folders" 		( MKDIR "%D%Folders" 		) ELSE ( 
+	IF NOT EXIST 	"%D%Folders" 		( MKDIR "%D%Folders" 		) 
 	IF EXIST 	"%D%Folders\%%~NI" 	( CALL:RENAMEFOLDER "%%I" 0 	) ELSE ( 
-	MOVE 		"%%~I" "%D%Folders\%%~NI" )))))))))))))))
+	MOVE 		"%%~I" "%D%Folders\%%~NI" ))))))))))))))
 
 :: Files that match the "IF /I" statement are moved to their respective folders
 :: Links and Partial files are deleted
@@ -92,9 +92,9 @@ GOTO:EOF
 
 :: This function creates the destination folder if needed and attempts to move the file
 :MOVEFILE
-IF NOT EXIST 	"%D%\%~2" 				( MKDIR 		"%D%\%~2" 		) ELSE ( 
+IF NOT EXIST 	"%D%\%~2" 				( MKDIR 		"%D%\%~2" 		)
 IF EXIST 	"%D%\%~2\%~NX1" 			( CALL:RENAMEFILE 	"%~1" "%~2" 0 		) ELSE ( 
-MOVE 		"%~1" "%D%\%~2\%~NX1" 			))
+MOVE 		"%~1" "%D%\%~2\%~NX1" 			)
 GOTO:EOF
 
 :: If the file already exists in the destination, this renames the file
